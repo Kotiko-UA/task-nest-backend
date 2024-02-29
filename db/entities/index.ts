@@ -7,6 +7,12 @@ import {
 } from 'typeorm';
 
 @Entity()
+export class Task {
+  @PrimaryGeneratedColumn({ name: 'task_id' })
+  id: number;
+}
+
+@Entity()
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
