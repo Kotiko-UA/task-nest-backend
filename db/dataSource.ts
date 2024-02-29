@@ -12,6 +12,7 @@ export const AppDataSource = new DataSource({
   database: process.env.DB_NAME,
   entities: Object.values(Entities),
   migrations: ['./db/migrations/*.ts'],
+  synchronize: false,
 });
 
 AppDataSource.initialize()
