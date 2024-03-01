@@ -32,6 +32,19 @@ export class UserService {
   }
 
   async findOne(email: string) {
-    return await this.userRepository.findOne({ where: { email } });
+    const user = await this.userRepository
+      .createQueryBuilder('user')
+      .leftJoinAndSelect('task.user', 'user')
+      .select([
+        'user.id',
+        'user.email',
+        'user.password',
+        'task.id',
+        'task.complite',
+        'task.task',
+      ])
+      .where('user.email = :email', { email })
+      .getOne();
+    return user;
   }
 }

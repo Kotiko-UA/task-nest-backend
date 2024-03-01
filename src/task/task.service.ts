@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
-import { Repository } from 'typeorm';
+import { Repository, getRepository } from 'typeorm';
 import { Task } from 'db/entities';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -22,9 +22,14 @@ export class TaskService {
   }
 
   async findAll(id: number) {
-    return await this.taskRepository.find({
-      where: { user: { id } },
-    });
+    const tasks = await this.taskRepository
+      .createQueryBuilder('task')
+      .leftJoinAndSelect('task.user', 'user')
+      .select(['task.id', 'task.task', 'task.complite', 'user.id'])
+      .where('user.id = :id', { id })
+      .getMany();
+
+    return tasks;
   }
 
   async remove(id: number) {
