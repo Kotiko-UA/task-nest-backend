@@ -15,14 +15,16 @@ export class TaskService {
   async create(createTaskDto: CreateTaskDto, id: number) {
     const newTask = {
       task: createTaskDto.task,
-      owner: id,
       complite: createTaskDto.complite,
+      user: { id },
     };
     return await this.taskRepository.save(newTask);
   }
 
-  findAll() {
-    return `This action returns all task`;
+  async findAll(id: number) {
+    return await this.taskRepository.find({
+      where: { user: { id } },
+    });
   }
 
   findOne(id: number) {

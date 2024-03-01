@@ -7,6 +7,7 @@ import { Repository } from 'typeorm';
 
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { AuthService } from 'src/auth/auth.service';
 
 @Injectable()
 export class UserService {
@@ -27,8 +28,8 @@ export class UserService {
       email: CreateUserDto.email,
       password: await bcrypt.hash(CreateUserDto.password, 10),
     });
-    const token = this.jwtServise.sign({ email: CreateUserDto.email });
-    return { user, token };
+    const token = this.jwtServise.sign({ id: user.id, email: user.email });
+    return { user: user.id, email: user.email, token };
   }
 
   async findOne(email: string) {

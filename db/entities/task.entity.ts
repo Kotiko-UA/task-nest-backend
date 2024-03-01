@@ -20,7 +20,7 @@ export class Task {
   @Column()
   complite: boolean;
 
-  @ManyToOne(() => User, (user) => user.taskList)
+  @ManyToOne(() => User, (user) => user.tasks)
   @JoinColumn({ name: 'user_id' })
   user: User;
 

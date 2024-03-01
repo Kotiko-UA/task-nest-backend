@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -10,7 +11,7 @@ import { Task } from './task.entity';
 
 @Entity()
 export class User {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({ name: 'user_id' })
   id: number;
 
   @Column()
@@ -20,7 +21,8 @@ export class User {
   password: string;
 
   @OneToMany(() => Task, (task) => task.user, { onDelete: 'CASCADE' })
-  taskList: Task[];
+  @JoinColumn({ name: 'task_list' })
+  tasks: Task[];
 
   @CreateDateColumn()
   crearedAt: Date;

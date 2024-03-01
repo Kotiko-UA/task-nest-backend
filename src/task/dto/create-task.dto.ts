@@ -1,4 +1,5 @@
 import { IsNotEmpty } from 'class-validator';
+import { User } from 'db/entities';
 
 export class CreateTaskDto {
   @IsNotEmpty()
@@ -7,6 +8,5 @@ export class CreateTaskDto {
   @IsNotEmpty()
   complite: boolean;
 
-  @IsNotEmpty()
-  owner: number;
+  user?: User;
 }
