@@ -8,6 +8,8 @@ import {
   Delete,
   UseGuards,
   Req,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { TaskService } from './task.service';
 import { CreateTaskDto } from './dto/create-task.dto';
@@ -20,6 +22,7 @@ export class TaskController {
 
   @Post()
   @UseGuards(JwtAuthGuard)
+  @UsePipes(new ValidationPipe())
   create(@Body() createTaskDto: CreateTaskDto, @Req() req) {
     return this.taskService.create(createTaskDto, +req.user.id);
   }
