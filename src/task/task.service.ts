@@ -18,7 +18,8 @@ export class TaskService {
       complite: createTaskDto.complite,
       user: { id },
     };
-    return await this.taskRepository.save(newTask);
+    const resp = await this.taskRepository.save(newTask);
+    return { data: resp };
   }
 
   async findAll(id: number) {
@@ -29,7 +30,7 @@ export class TaskService {
       .where('user.id = :id', { id })
       .getMany();
 
-    return tasks;
+    return { data: tasks };
   }
 
   async remove(id: number) {

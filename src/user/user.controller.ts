@@ -22,10 +22,4 @@ export class UserController {
   create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
   }
-
-  @Get()
-  @UseGuards(JwtAuthGuard)
-  findOne(@Req() req) {
-    return this.userService.findOne(req.user.email);
-  }
 }
