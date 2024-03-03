@@ -23,14 +23,24 @@ export class AuthService {
     }
     return null;
   }
-  async login(user: IUser) {
+  async logIn(user: IUser) {
     const { id, email } = user;
+
+    const token = this.jwtService.sign({ id: user.id, email: user.email });
+
+    await this.userService.updateToken(id, token);
+
     return {
-      id,
+      user: id,
       email,
-      token: this.jwtService.sign({ id: user.id, email: user.email }),
+      token,
     };
   }
+
+  async logOut({ user }) {
+    await this.userService.updateToken(user.id, '');
+  }
+
   async getCurrent(req) {
     const { email } = req.user;
     const user = await this.userService.findOne(email);
