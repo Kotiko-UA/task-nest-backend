@@ -31,4 +31,16 @@ export class AuthService {
       token: this.jwtService.sign({ id: user.id, email: user.email }),
     };
   }
+  async getCurrent(req) {
+    const { email } = req.user;
+    const user = await this.userService.findOne(email);
+    return {
+      complete: true,
+      data: {
+        id: user.id,
+        email: user.email,
+        tasks: user.tasks,
+      },
+    };
+  }
 }

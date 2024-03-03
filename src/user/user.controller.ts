@@ -7,6 +7,7 @@ import {
   Get,
   UseGuards,
   Req,
+  Patch,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -21,5 +22,11 @@ export class UserController {
   @UsePipes(new ValidationPipe())
   create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
+  }
+
+  @Patch('tasks')
+  @UseGuards(JwtAuthGuard)
+  updateTask(@Req() req, @Body() body) {
+    return this.userService.updateTasks(req, body);
   }
 }

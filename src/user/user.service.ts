@@ -26,14 +26,29 @@ export class UserService {
     const user = await this.userRepository.save({
       email: CreateUserDto.email,
       password: await bcrypt.hash(CreateUserDto.password, 10),
+      tasks: { new: [], progress: [], complete: [] },
     });
     const token = this.jwtServise.sign({ id: user.id, email: user.email });
-    return { user: user.id, email: user.email, token };
+    return {
+      complete: true,
+      data: { user: user.id, email: user.email, token },
+    };
   }
 
   async findOne(email: string) {
     const user = await this.userRepository.findOne({ where: { email } });
 
     return user;
+  }
+
+  async updateTasks(req, { tasks }) {
+    const { id, email } = req.user;
+
+    const updatedUser = await this.userRepository.update({ id }, { tasks });
+    console.log(updatedUser);
+    return {
+      complete: true,
+      data: { id, email, tasks },
+    };
   }
 }

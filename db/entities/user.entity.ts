@@ -20,9 +20,12 @@ export class User {
   @Column()
   password: string;
 
-  @OneToMany(() => Task, (task) => task.user, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'task_list' })
-  tasks: Task[];
+  @Column({ type: 'jsonb' })
+  tasks: object;
+
+  // @OneToMany(() => Task, (task) => task.user, { onDelete: 'CASCADE' })
+  // @JoinColumn({ name: 'task_list' })
+  // tasks: Task[];
 
   @CreateDateColumn()
   crearedAt: Date;

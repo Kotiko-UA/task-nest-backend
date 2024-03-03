@@ -20,9 +20,9 @@ export class Task {
   @Column()
   complite: boolean;
 
-  @ManyToOne(() => User, (user) => user.tasks)
-  @JoinColumn({ name: 'user_id' })
-  user: User;
+  // @ManyToOne(() => User, (user) => user.tasks)
+  // @JoinColumn({ name: 'user_id' })
+  // user: User;
 
   @CreateDateColumn()
   crearedAt: Date;
